@@ -1,0 +1,84 @@
+version: '3.9'
+
+services:
+
+  # ── Application ──────────────────────────────
+  app:
+    build: .
+    container_name: cinemax-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      DB_USER: cinemax
+      DB_PASSWORD: cinemax123
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/cinemax
+      SPRING_DATA_REDIS_HOST: redis
+      JWT_SECRET: cinemaxLocalDevSecretKeyMustBe256BitsLong!
+      RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID:-test_key}
+      RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET:-test_secret}
+      RAZORPAY_WEBHOOK_SECRET: ${RAZORPAY_WEBHOOK_SECRET:-test_webhook}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - cinemax-net
+    restart: unless-stopped
+
+  # ── PostgreSQL ────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: cinemax-postgres
+    environment:
+      POSTGRES_DB: cinemax
+      POSTGRES_USER: cinemax
+      POSTGRES_PASSWORD: cinemax123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cinemax -d cinemax"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cinemax-net
+
+  # ── Redis ─────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: cinemax-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - redis_data:/data
+    networks:
+      - cinemax-net
+
+  # ── Swagger UI (dev only) ─────────────────────
+  swagger:
+    image: swaggerapi/swagger-ui
+    container_name: cinemax-swagger
+    ports:
+      - "8081:8080"
+    environment:
+      URL: http://localhost:8080/api-docs
+    networks:
+      - cinemax-net
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  cinemax-net:
+    driver: bridge
