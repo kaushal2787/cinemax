@@ -80,7 +80,7 @@ public class MovieController {
             .trailerUrl(m.getTrailerUrl())
             .description(m.getDescription())
             .director(m.getDirector())
-            .cast(m.getCast())
+            .cast(m.getMovieCast())
             .releaseDate(m.getReleaseDate())
             .status(m.getStatus().name())
             .build()));

@@ -2,8 +2,12 @@ spring:
   application:
     name: cinemax-platform
 
+  spring:
+    main:
+      allow-circular-references: true
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/cinemax
+    url: jdbc:postgresql://${DB_HOST:localhost}:5432/cinemax
     username: ${DB_USER:cinemax}
     password: ${DB_PASSWORD:cinemax123}
     hikari:
@@ -15,7 +19,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     show-sql: false
     properties:
       hibernate:

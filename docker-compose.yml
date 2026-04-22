@@ -10,10 +10,10 @@ services:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: dev
+      DB_HOST: postgres
       DB_USER: cinemax
       DB_PASSWORD: cinemax123
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/cinemax
-      SPRING_DATA_REDIS_HOST: redis
+      REDIS_HOST: redis
       JWT_SECRET: cinemaxLocalDevSecretKeyMustBe256BitsLong!
       RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID:-test_key}
       RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET:-test_secret}

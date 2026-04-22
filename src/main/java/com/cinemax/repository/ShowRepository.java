@@ -30,7 +30,7 @@ public interface ShowRepository extends JpaRepository<Show, Long> {
                s.availableSeats AS availableSeats,
                s.totalSeats  AS totalSeats,
                s.silverPrice AS silverPrice,
-               s.goldPrice   AS goldPrice,
+               s.goldPrice AS goldPrice,
                s.platinumPrice AS platinumPrice,
                s.reclinePrice AS reclinePrice
         FROM Show s

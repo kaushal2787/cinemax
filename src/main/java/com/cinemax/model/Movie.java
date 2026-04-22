@@ -15,7 +15,9 @@ public class Movie {
     @Column(nullable = false) private String title;
     private String description;
     private String director;
-    private String cast;
+
+    @Column(name = "movie_cast")
+    private String movieCast;
     private Integer durationMinutes;
     private String language;
     private String genre;

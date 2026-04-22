@@ -4,8 +4,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5432/cinemax
-    username: ${DB_USER:cinemax}
-    password: ${DB_PASSWORD:cinemax123}
+    username: cinemax
+    password: cinemax123
     hikari:
       maximum-pool-size: 20
       minimum-idle: 5

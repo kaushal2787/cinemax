@@ -84,7 +84,7 @@ public class AdminController {
             .title(request.getTitle())
             .description(request.getDescription())
             .director(request.getDirector())
-            .cast(request.getCast())
+            .movieCast(request.getCast())
             .durationMinutes(request.getDurationMinutes())
             .language(request.getLanguage())
             .genre(request.getGenre())
